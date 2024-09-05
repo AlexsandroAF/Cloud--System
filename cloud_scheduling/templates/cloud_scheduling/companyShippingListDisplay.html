@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cache %}
+<!--| Transportadoraes | -->
+<html lang="pt-br">
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_shipping.css' %}">
+    <link rel="shortcut icon" href="{% static 'css/assets/cloudicon.png' %}" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>Cloud - Transportadora</title>
+
+  </head>
+  <body>
+    <!-- Start - Menu Superior-->
+    <header>
+      <nav>
+        <ul class="left-menu">
+          <img src="{% static 'css/assets/cloudlogo.png'%}" alt="">
+          <li>
+            <a href="{%url 'home' %}" class="">Página Inicial</a>
+          </li>
+          <li>
+            <a href="{%url 'schedulesDisplay' %}" class="">Agendamentos</a>
+          </li>
+          <li>
+            <a href="{%url 'vehiclesListDisplay' %}" class="">Veículos</a>
+          </li>
+          <li>
+            <a href="{%url 'companyListDisplay' %}" class="">Empresas</a>
+          </li>
+          <li>
+            <a href="{%url 'companyShippingListDisplay' %}" class="active">Transportadoras</a>
+          </li>
+          <li>
+            <a href="{%url 'companySupplierListDisplay' %}" class="">Fornecedores</a>
+          </li>
+          <li>
+            <a href="{%url 'nfeListDisplay' %}" class="">Nfe</a>
+          </li>
+        </ul>
+        <ul class="right-menu">
+            <li class="dropdownR">
+                <a href="#" id="usernamedp">
+                    <i class="mdi mdi-account-circle avatar"></i> {{user.username}}
+                </a>
+                <div class="dropdownR-options">
+                    <ul>
+                        <li><a href="#">Trocar Senha</a></li>
+                        <li><a href="#">Sobre</a></li>
+                        <li><a href="{% url 'logout' %}">Sair</a></li>
+                    </ul>
+                </div>
+            </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <div class="container">
+      <!-- Conteudo do Filtro -->
+      <div class="containerE">
+        <input type="button" value="+  Nova Transportadora" id="popup_show">
+        <div class="container_Filtro">
+            <form id="form_filter" method="GET">
+
+                <h1>Filtros</h1>
+                <div class="filtro">
+
+                <label for="id_fantasyName">Nome Fantasia:</label>
+                <input type="text" name="fantasyName" id="id_fantasyName">
+
+                <label for="id_registrationNumber">CNPJ:</label>
+                <input type="text" name="registrationNumber" id="id_registrationNumber" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}">
+
+                <label for="id_serviceKind">Tipo de Serviço:</label>
+                <input type="text" name="serviceKind" id="id_serviceKind">
+
+                <label for="id_valueShippingInt">Valor do Frete Inteiro:</label>
+                <input type="number" name="valueShippingInt" id="id_valueShippingInt">
+
+                <label for="id_valueShippingPerc">Valor do Frete Porcentagem (%):</label>
+                <input type="number" name="valueShippingPerc" id="id_valueShippingPerc">
+                <br>
+                </div>
+                <div class="container_btn">
+                <input type="button" id="btn_limpar" value="Limpar" onclick="window.location.href = '{% url 'companyShippingListDisplay'%}'">
+                <input type="submit" id="btn_filtrar" value="Filtrar">
+                </div>
+            </form>
+        </div>
+      </div>
+
+
+      <!-- Conteudo do Filtro -->
+      <!-- Conteudo da Lista/Tabela -->
+      <div class="container_D">
+        <table class="agen_table">
+          <thead>
+            <tr>
+              <th>CNPJ</th>
+              <th>Razão Social</th>
+              <th>Nome Fantasia</th>
+              <th>Inscrição Estadual</th>
+              <th>Tipo de Serviço</th>
+              <th>Valor Frete</th>
+              <th>Valor Frete %</th>
+              <th class="th_edit">Editar</th>
+              <th class="th_edit">Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        {% for shipping_list in object_list %}
+            <tr>
+              <td>{{ shipping_list.registrationNumber }}</td>
+              <td>{{ shipping_list.corporateName }}</td>
+              <td>{{ shipping_list.fantasyName }}</td>
+              <td>{{ shipping_list.stateRegistration }}</td>
+              <td>{{ shipping_list.serviceKind }}</td>
+              <td>{{ shipping_list.valueShippingInt }}</td>
+              <td>{{ shipping_list.valueShippingPerc }} %</td>
+              <td class="th_edit">
+                <button class="edit-button" onclick="window.location.href = '{% url 'companyShippingUpdate' pk=shipping_list.id %}'">
+                  <i class="mdi mdi-pencil"></i>
+                </button>
+              </td>
+              <td class="th_edit">
+
+                    <button class="delete-button" >
+                        <i class="mdi mdi-delete"></i>
+                    </button>
+                    <!-- Popup de confirmação de delete -->
+                    <div id="delete-popup">
+                      <div class="delete-content">
+                        <p>Tem certeza de que deseja excluir este item?</p>
+                        <div class="del_btns">
+                            <button type="submit" class="del_btnstyle" id="btn_delConfirm" onclick="window.location.href = '{% url 'company_shipping_delete' shipping_list.id %}'">Sim</button>
+                          <button type="button" class="del_btnstyle" id="btn_delCancel">Não</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Popup de confirmação de delete -->
+              </td>
+            </tr>
+        {% empty %}
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+        {% endfor %}
+
+          </tbody>
+        </table>
+    <!-- Popup de Novo Transportadora -->
+  <div class="pag">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1{% if filter.form.q.value %}&q={{ filter.form.q.value }}{% endif %}{% if filter.form.preco_min.value %}&preco_min={{ filter.form.preco_min.value }}{% endif %}{% if filter.form.preco_max.value %}&preco_max={{ filter.form.preco_max.value }}{% endif %}" aria-label="Primeira página">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if filter.form.q.value %}&q={{ filter.form.q.value }}{% endif %}{% if filter.form.preco_min.value %}&preco_min={{ filter.form.preco_min.value }}{% endif %}{% if filter.form.preco_max.value %}&preco_max={{ filter.form.preco_max.value }}{% endif %}" aria-label="Anterior">
+            <span aria-hidden="true">&lt;</span>
+          </a>
+        </li>
+      {% endif %}
+      <li class="page-item disabled"><a class="page-link">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a></li>
+            {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if filter.form.q.value %}&q={{ filter.form.q.value }}{% endif %}{% if filter.form.preco_min.value %}&preco_min={{ filter.form.preco_min.value }}{% endif %}{% if filter.form.preco_max.value %}&preco_max={{ filter.form.preco_max.value }}{% endif %}" aria-label="Próximo">
+            <span aria-hidden="true">&gt;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ page_obj.paginator.num_pages }}
+             {% if filter.form.q.value %}
+                &q={{ filter.form.q.value }}
+             {% endif %}{% if filter.form.date.value %}
+                &date={{ filter.form.date.value }}
+             {% endif %}{% if filter.form.date.value %}
+                &date={{ filter.form.date.value }}
+             {% endif %}" aria-label="Última página">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+
+      </div>
+      <!-- Conteudo da Lista/Tabela -->
+      <!-- Roda pé Menu de Páginas -->
+      <div class="sun">
+        <div class="switch">
+          <label class="switch" for="modeSwitch">
+            <input type="checkbox" id="modeSwitch" onclick="toggleMode()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        </div>
+      <!-- Roda pé Menu de Páginas -->
+      <!-- Popup de Novo Transportadora -->
+        <div id="popup-container">
+          <form method="post" action="{% url 'company_shipping_new' %}" id="company_shipping_new-form">
+            {% csrf_token %}
+            <div id="popup-content">
+              <h1>Nova Transportadora</h1>
+              <br>
+              <div class="selecteds">
+                <label>Tipo de Transporte: <br>
+                  <select name="shippingType" id="id_shippingType">
+                    <option value="CIF">CIF</option>
+                    <option value="FOB">FOB</option>
+                  </select>
+                </label>
+                <label>CNPJ:</label>
+                <input type="text" name="registrationNumber" id="id_registrationNumber" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" required>
+                <label>Razão Social:</label>
+                {{ form.corporateName }}
+                <label>Nome Fantasia:</label>
+                {{ form.fantasyName }}
+                <label>Inscrição Estadual:</label>
+                {{ form.stateRegistration }}
+                <label>Tipo de Serviço :</label>
+                {{ form.serviceKind }}
+                <label>Precisa Agendar Coleta?:</label>
+                <select name="needScheduleCollection" id="id_needScheduleCollection">
+                  <option value="1">Sim</option>
+                  <option value="0">Não</option>
+                </select>
+                <br>
+              </div>
+              <div class="buttons_end">
+                <input type="button" class="del_btnstyle" value="Cancelar" id="canceled">
+                <input type="submit" class="del_btnstyle" value="+ Transportadora" id="register" onclick="window.location.href = '{% url 'companySupplierListDisplay'%}'">
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- Conteudo do Pop up -->
+        </div>
+
+    <script>
+
+      $(document).ready(function() {
+        $('#id_registrationNumber,#cnpj').mask('00.000.000/0000-00');
+        $('#btn_filtrar').click(function(event) {
+          event.preventDefault();
+          var cnpj = $('#id_registrationNumber,#cnpj').val().replace(/\D/g, '');
+          $('#id_registrationNumber').val(cnpj);
+          $('#form_filter').submit();
+          console.log('CNPJ digitado:', cnpj);
+
+        });
+      });
+      const deleteButtons = document.querySelectorAll(".delete-button");
+      const deletePopup = document.getElementById("delete-popup");
+      const deleteConfirm = document.querySelector("#btn_delConfirm");
+      const deleteCancel = document.querySelector("#btn_delCancel");
+
+      /* Função para exibir o menu em popup quando clicar o botao */
+      const newScheduleButton = document.getElementById('popup_show');
+      const popupContainer = document.getElementById('popup-container');
+      newScheduleButton.addEventListener('click', () => {
+        popupContainer.style.display = 'flex';
+      });
+      popupContainer.addEventListener('click', event => {
+        if (event.target === popupContainer) {
+          popupContainer.style.display = 'none';
+        }
+      });
+
+      /* Função para exibir o menu em popup quando clicar o botao */
+      const cancelButton = document.getElementById('canceled');
+      cancelButton.addEventListener('click', () => {
+        popupContainer.style.display = 'none';
+      });
+
+      /* Delete Button Funções */
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          deletePopup.style.display = "flex";
+        });
+      });
+      deleteConfirm.addEventListener("click", () => {
+        // coloque aqui o código que remove o item
+        deletePopup.style.display = "none";
+      });
+      deleteCancel.addEventListener("click", () => {
+        deletePopup.style.display = "none";
+      });
+      deletePopup.addEventListener('click', event => {
+        if (event.target === deletePopup) {
+          deletePopup.style.display = 'none';
+        }
+      });
+      /* Delete Button Funções */
+      /* Função para ocultar o menu em popup quando clicar o botao Cancelar*/
+    </script>
+  </body>
+</html>

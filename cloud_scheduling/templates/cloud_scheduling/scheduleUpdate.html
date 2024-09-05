@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_up.css' %}">
+    <link rel="shortcut icon" href="{% static 'css/assets/cloudicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>Cloud - Agendamento</title>
+  </head>
+  <body>
+    <!-- Start - Menu Superior-->
+    <header>
+      <nav>
+        <ul class="left-menu">
+          <img src="{% static 'css/assets/cloudlogo.png'%}" alt="">
+          <li>
+            <a href="{%url 'home' %}" class="">Página Inicial</a>
+          </li>
+          <li>
+            <a href="{%url 'schedulesDisplay' %}" class="active">Agendamentos</a>
+          </li>
+          <li>
+            <a href="{%url 'vehiclesListDisplay' %}" class="">Veículos</a>
+          </li>
+          <li>
+            <a href="{%url 'companyListDisplay' %}" class="">Empresas</a>
+          </li>
+          <li>
+            <a href="{%url 'companyShippingListDisplay' %}" class="">Transportadoras</a>
+          </li>
+          <li>
+            <a href="{%url 'companySupplierListDisplay' %}" class="">Fornecedores</a>
+          </li>
+          <li>
+            <a href="{%url 'nfeListDisplay' %}" class="">Nfe</a>
+          </li>
+        </ul>
+        <ul class="right-menu">
+            <li class="dropdownR">
+                <a href="#" id="usernamedp">
+                    <i class="mdi mdi-account-circle avatar"></i> {{user.username}}
+                </a>
+                <div class="dropdownR-options">
+                    <ul>
+                        <li><a href="#">Trocar Senha</a></li>
+                        <li><a href="#">Sobre</a></li>
+                        <li><a href="{% url 'logout' %}">Sair</a></li>
+                    </ul>
+                </div>
+            </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Menu Superior-->
+
+
+    <div class="container">
+      <!-- Conteudo do Filtro -->
+      <div class="containerE">
+        <div class="container_Filtro">
+
+        <form method="post">
+            {% csrf_token %}
+            <h1>Edição</h1>
+            <div class="filtro">
+              <div class="gp_1">
+                <label for="id_idMainCompany">Empresa:</label>
+                {{ form.idMainCompany }}
+                <label for="id_idCompanySupplier">Fornecedor:</label>
+                {{ form.idCompanySupplier }}
+              </div>
+
+              <div class="gp_2">
+                <label for="id_idCompanyTransport">Transportadora:</label>
+                {{ form.idCompanyTransport }}
+                <label for="id_thisStatus">Status:</label>
+                {{ form.thisStatus }}
+              </div>
+
+              <div class="gp_0">
+                <label>Volume:</label>
+                <input type="number" name="countNfe" value="{{form.countNfe.value}}" id="id_countNfe" min="0">
+
+                <label>Quantidade de Notas:</label>
+                <input type="number" name="countFullness" value="{{form.countFullness.value}}" id="id_countFullness" min="0">
+              </div>
+              <div class="gp_3">
+                <div class="date">
+                  <div class="date_1">
+                    <p>Data:</p>
+                     <input type="date" id="{{ form.date.id_for_label }}" name="{{ form.date.html_name }}" value="{{ form.date.value | date:"Y-m-d" }}">
+                  </div>
+                </div>
+                <div class="time">
+                  <div class="time_1">
+                    <p>Hora da Entrega:</p>
+                   <input type="time" id="{{ form.hour.id_for_label }}" name="{{ form.hour.html_name }}" value="{{ form.hour.value }}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="container_btn">
+              <input type="submit" id="btn_filtrar" value="Atualizar">
+            </div>
+        </form>
+
+        </div>
+
+        <div class="nfe_btn">
+          <input type="button" value="+ Nova NF-e" id="popup_show">
+        </div>
+
+        <table class="agen_table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nfe</th>
+              <th>Danfe</th>
+              <th class="th_edit">Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for nfe_tb in nfe %}
+            <tr>
+              <td>{{nfe_tb.id}}</td>
+              <td>{{nfe_tb.numberNfe}}</td>
+              <td>{{nfe_tb.danfe}}</td>
+              <td class="th_edit">
+                <button class="delete-button" >
+                  <i class="mdi
+                          mdi-delete"></i>
+                </button>
+                <!-- Popup de confirmação de delete -->
+                <div id="delete-popup">
+                  <div class="delete-content">
+                    <p>Tem certeza de que deseja excluir este item?</p>
+                    <div class="del_btns">
+                      <button type="button" class="del_btnstyle" id="btn_delConfirm" onclick="window.location.href = '{% url 'schedule_nfe_delete' nfe_tb.id %}'">Sim</button>
+                      <button type="button" class="del_btnstyle" id="btn_delCancel">Não</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Popup de confirmação de delete -->
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div id="popup-container">
+        <form action="#" method="post">
+          {% csrf_token %}
+          <div id="popup-content">
+            <h1>Nova Nfe</h1>
+            <br>
+
+            <label>Nfe:</label>
+            <input type="text" name="idSchedule" maxlength="10" value="{{form_a.idSchedule.value}}" contenteditable="false" required="" id="id_idSchedule">
+            <input type="text" name="numberNfe" maxlength="10" required="" id="id_numberNfe">
+            <br>
+            <label>Danfe:</label>
+            <input type="text" name="danfe" maxlength="44" required="" id="id_danfe">
+            <div class="buttons_end">
+              <input type="button" class="del_btnstyle" value="Cancelar" id="canceled">
+              <input type="submit" class="del_btnstyle" value="+ Adicionar" id="register" onclick="recarregarPagina()">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Conteudo do Filtro -->
+      <!-- Rodapé Menu de Páginas -->
+      <div class="sun">
+        <div class="switch">
+          <label class="switch" for="modeSwitch">
+            <input type="checkbox" id="modeSwitch" onclick="toggleMode()">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- Popup de Novo Agendamento -->
+    <script>
+      const deleteButtons = document.querySelectorAll(".delete-button");
+      const deletePopup = document.getElementById("delete-popup");
+      const deleteConfirm = document.querySelector("#btn_delConfirm");
+      const deleteCancel = document.querySelector("#btn_delCancel");
+      /* Função para exibir o menu em popup quando clicar o botao */
+      const newScheduleButton = document.getElementById('popup_show');
+      const popupContainer = document.getElementById('popup-container');
+      newScheduleButton.addEventListener('click', () => {
+        popupContainer.style.display = 'flex';
+      });
+      popupContainer.addEventListener('click', event => {
+        if (event.target === popupContainer) {
+          popupContainer.style.display = 'none';
+        }
+      });
+      /* Função para exibir o menu em popup quando clicar o botao */
+      /* Função para exibir o menu em popup quando clicar o botao */
+      const cancelButton = document.getElementById('canceled');
+      cancelButton.addEventListener('click', () => {
+        popupContainer.style.display = 'none';
+      });
+      /* Delete Button Funções */
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          deletePopup.style.display = "flex";
+        });
+      });
+      deleteConfirm.addEventListener("click", () => {
+        // coloque aqui o código que remove o item
+        deletePopup.style.display = "none";
+      });
+      deleteCancel.addEventListener("click", () => {
+        deletePopup.style.display = "none";
+      });
+      deletePopup.addEventListener('click', event => {
+        if (event.target === deletePopup) {
+          deletePopup.style.display = 'none';
+        }
+      });
+      /* Delete Button Funções */
+    </script>
+  </body>
+</html>

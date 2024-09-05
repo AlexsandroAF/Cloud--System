@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_company.css' %}">
+    <link rel="shortcut icon" href="{% static 'css/assets/cloudicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>Cloud - Empresas</title>
+  </head>
+  <body>
+    <!-- Start - Menu Superior-->
+    <header>
+      <nav>
+        <ul class="left-menu">
+          <img src="{% static 'css/assets/cloudlogo.png'%}" alt="">
+          <li>
+            <a href="{%url 'home' %}" class="">Página Inicial</a>
+          </li>
+          <li>
+            <a href="{%url 'schedulesDisplay' %}" class="">Agendamentos</a>
+          </li>
+          <li>
+            <a href="{%url 'vehiclesListDisplay' %}" class="">Veículos</a>
+          </li>
+          <li>
+            <a href="{%url 'companyListDisplay' %}" class="active">Empresas</a>
+          </li>
+          <li>
+            <a href="{%url 'companyShippingListDisplay' %}" class="">Transportadoras</a>
+          </li>
+          <li>
+            <a href="{%url 'companySupplierListDisplay' %}" class="">Fornecedores</a>
+          </li>
+          <li>
+            <a href="{%url 'nfeListDisplay' %}" class="">Nfe</a>
+          </li>
+        </ul>
+            <ul class="right-menu">
+                <li class="dropdownR">
+                    <a href="#" id="usernamedp">
+                        <i class="mdi mdi-account-circle avatar"></i> {{user.username}}
+                    </a>
+                    <div class="dropdownR-options">
+              <ul>
+                <li>
+                  <div class="sun">
+                    <div class="switch">
+                      <label class="switch" for="modeSwitch">
+                        <input type="checkbox" id="modeSwitch" onclick="toggleMode()">
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a href="#">Trocar Senha</a>
+                </li>
+                <li>
+                  <a href="#">Sobre</a>
+                </li>
+                <li>
+                  <a href="#">Sair</a>
+                </li>
+                <li class="Theme">
+                  <label>Tema:</label>
+                </li>
+              </ul>
+            </div>
+                </li>
+            </ul>
+
+      </nav>
+    </header>
+
+
+{%block conteudo%}
+
+<div>
+    <br>
+    <button class="btn btn-primary"
+            style="display: flex;"
+            onclick="document.location='nova_empresa'"
+            >Nova Empresa</button>
+    <br>
+</div>
+
+<table border="1" class="table table-striped">
+  <tr>
+      <th>ID</th>
+      <th>Razão Social</th>
+      <th>Nome Fantasia</th>
+      <th>Status</th>
+      <th>Data de Cadastro</th>
+  </tr>
+  {%for mainCompany in mainsCompany%}
+      {%if mainCompany.status != True %}
+          <tr style = "color: red;">
+              <td>{{ mainCompany.id }}</td>
+              <td>{{ mainCompany.corporateName }}</td>
+              <td>{{ mainCompany.fantasyName }}</td>
+              {%if mainCompany.status == False %}
+                    <td>Ativa</td>
+              {%else%}
+                    <td>Desativada</td>
+              {%endif%}
+              <td>{{ mainCompany.dateCreate }}</td>
+          </tr>
+      {%else%}
+            <tr >
+              <th scope="row">{{ mainCompany.id }}</th>
+              <td>{{ mainCompany.corporateName }}</td>
+              <td>{{ mainCompany.fantasyName }}</td>
+              <td>{{ mainCompany.status }}</td>
+              <td>{{ mainCompany.dateCreate }}</td>
+            </tr>
+      {%endif%}
+{%endfor%}
+</table>
+{%endblock%}

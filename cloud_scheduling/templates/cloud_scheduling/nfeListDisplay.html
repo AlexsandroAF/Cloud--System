@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+
+<!--| Transportadora | -->
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_nfe.css' %}">
+    <link rel="shortcut icon" href="{% static 'css/assets/cloudicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>Cloud - Nota Fiscal</title>
+  </head>
+  <body>
+    <!-- Start - Menu Superior-->
+    <header>
+      <nav>
+        <ul class="left-menu">
+          <img src="{% static 'css/assets/cloudlogo.png'%}" alt="">
+          <li>
+            <a href="{%url 'home' %}" class="">Página Inicial</a>
+          </li>
+          <li>
+            <a href="{%url 'schedulesDisplay' %}" class="">Agendamentos</a>
+          </li>
+          <li>
+            <a href="{%url 'vehiclesListDisplay' %}" class="">Veículos</a>
+          </li>
+          <li>
+            <a href="{%url 'companyListDisplay' %}" class="">Empresas</a>
+          </li>
+          <li>
+            <a href="{%url 'companyShippingListDisplay' %}" class="">Transportadoras</a>
+          </li>
+          <li>
+            <a href="{%url 'companySupplierListDisplay' %}" class="">Fornecedores</a>
+          </li>
+          <li>
+            <a href="{%url 'nfeListDisplay' %}" class="active">Nfe</a>
+          </li>
+        </ul>
+        <ul class="right-menu">
+            <li class="dropdownR">
+                <a href="#" id="usernamedp">
+                    <i class="mdi mdi-account-circle avatar"></i> {{user.username}}
+                </a>
+                <div class="dropdownR-options">
+                    <ul>
+                        <li><a href="#">Trocar Senha</a></li>
+                        <li><a href="#">Sobre</a></li>
+                        <li><a href="{% url 'logout' %}">Sair</a></li>
+                    </ul>
+                </div>
+            </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+{%block 'content'%}
+    <table border="1">
+    <tr>
+        <td>ID</td>
+        <td>Agendamento Nr</td>
+        <td>Danfe</td>
+        <td>NF-e</td>
+    </tr>
+    {%for nfe in formNfeList%}
+     <tr>
+         <td>{{ nfe.id }}</td>
+         <td>{{ nfe.idSchedule }}</td>
+         <td>{{ nfe.danfe }}</td>
+         <td>{{ nfe.numberNfe }}</td>
+     </tr>
+    {%endfor%}
+
+    </table>
+
+{%endblock%}

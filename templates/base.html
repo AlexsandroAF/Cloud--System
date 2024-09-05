@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style_ag.css'%}">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <title>{% block 'TitleDisplay' %}{%endblock%}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="left-menu">
+                {% block 'NavBarLinks' %}{%endblock%}
+            </ul>
+            <ul class="right-menu">
+                <li class="dropdown">
+                    <a href="#">
+                        <i class="mdi mdi-account-circle avatar"></i> {{ user.username }}
+                    </a>
+                    <div class="dropdown-options">
+                        <ul>
+                            <li><a href="{%url 'logout' %}">Alterar Senha</a></li>
+                            <li><a href="{%url 'logout' %}">Sobre</a></li>
+                            <li><a href="{%url 'logout' %}">Sair</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+{%block 'content' %}{%endblock%}
+</body>
+

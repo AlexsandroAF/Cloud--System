@@ -1,0 +1,183 @@
+/* Sessão de Login */
+
+/* Importação de fonte do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+
+/* Configuração geral */
+body {
+  background-color: rgb(239, 241, 248);
+  color: rgb(48, 45, 45);
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Conteúdo principal */
+.container {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container_regB{
+  height: 90vh;
+
+}
+
+
+.container_reg {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h1{
+    text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+img {
+  width: auto;
+  height: 100px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 18px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border: 2px solid #5cace2;
+  background-color: #f3f8fa;
+  outline: none;
+}
+
+.rem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rem2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rem3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 355px;
+  height: 500px;
+}
+
+#forget {
+  margin-left: 50px;
+}
+
+button,
+#enter {
+margin-top:30px;
+  width: 100%;
+  background-color: #e70c43;
+  color: #f2f1f7;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#enter {
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+}
+button,
+#enterreg{
+margin:0;
+  width: 100%;
+  background-color: #e70c43;
+  color: #f2f1f7;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+#enter:hover {
+  transform: scale(1.1);
+}
+
+#enter:active {
+  transform: scale(0.9);
+}
+
+/* Rodapé */
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* recuperação de senha */
+a {
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+select:focus {
+  outline: none;
+  border: 1px solid #4d90fe;
+}
+
+select{
+
+  height: 39px;
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+}
+@media (max-height: 768px) {
+
+.container_reg{
+  height: 700px;
+}
+body {
+  background-color: rgb(239, 241, 248);
+  color: rgb(48, 45, 45);
+  font-family: 'Open Sans', sans-serif;
+}
+}

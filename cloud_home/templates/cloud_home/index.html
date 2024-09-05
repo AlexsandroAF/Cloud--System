@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+{% load static %}
+{% load custom_filters %}
+
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+	<link rel="shortcut icon" href="{% static 'css/assets/CloudIcon.png' %}" type="image/x-icon">
+	<script src="{% static 'script.js' %}"></script>
+	<title>CLOUD Inicio</title>
+	<body>
+	<header>
+		<nav>
+            <ul class="left-menu">
+                <img src="{% static 'css/assets/cloudlogo.png'%}" alt="">
+                <li><a href="{% url 'home' %}" class="active">Página Inicial</a></li>
+
+				{% if user|user_belongs_to_group:'Agendamento' %}
+					<li class="dropdown">
+						<a href="{% url 'schedulesDisplay' %}" >Agendamentos</a>
+						<div class="dropdown-options">
+							<ul>
+								<li><a href="{% url 'companyListDisplay'%}">Empresas</a></li>
+								<li><a href="{% url 'vehiclesListDisplay'%}">Veículos</a></li>
+								<li><a href="{% url 'companyShippingListDisplay'%}">Transportadoras</a></li>
+								<li><a href="{% url 'companySupplierListDisplay'%}">Fornecedores</a></li>
+								<li><a href="{% url 'nfeListDisplay'%}">Nfe</a></li>
+							</ul>
+						</div>
+					</li>
+				{% endif %}
+				{% if user|user_belongs_to_group:'Financeiro' %}
+				<li class="dropdown">
+                    <a href="#">Financeiro</a>
+                    <div class="dropdown-options">
+                        <ul>
+                            <li><a href="#">Empresas</a></li>
+                            <li><a href="#">Veículos</a></li>
+                            <li><a href="#">Transportadoras</a></li>
+							<li><a href="#">Forncecedores</a></li>
+							<li><a href="#">Nfe</a></li>
+                        </ul>
+                    </div>
+                </li>
+				{% endif %}
+				{% if user|user_belongs_to_group:'Soluções' %}
+				<li class="dropdown">
+                    <a href="#">Soluções</a>
+                    <div class="dropdown-options">
+                        <ul>
+                            <li><a href="#">Empresas</a></li>
+                            <li><a href="#">Veículos</a></li>
+                            <li><a href="#">Transportadoras</a></li>
+							<li><a href="#">Forncecedores</a></li>
+							<li><a href="#">Nfe</a></li>
+                        </ul>
+                    </div>
+                </li>
+				{% endif %}
+				{% if user|user_belongs_to_group:'CAS' %}
+				<li class="dropdown">
+                    <a href="#">C.A.S
+                    </a>
+                    <div class="dropdown-options">
+                        <ul>
+                            <li><a href="#">Empresas</a></li>
+                            <li><a href="#">Veículos</a></li>
+                            <li><a href="#">Transportadoras</a></li>
+							<li><a href="#">Forncecedores</a></li>
+							<li><a href="#">Nfe</a></li>
+                        </ul>
+                    </div>
+                </li>
+				{% endif %}
+				{% if user|user_belongs_to_group:'CDA' %}
+				<li class="dropdown">
+                    <a href="#">C.D.A
+                    </a>
+                    <div class="dropdown-options">
+                        <ul>
+                            <li><a href="#">Empresas</a></li>
+                            <li><a href="#">Veículos</a></li>
+                            <li><a href="#">Transportadoras</a></li>
+							<li><a href="#">Forncecedores</a></li>
+							<li><a href="#">Nfe</a></li>
+                        </ul>
+                    </div>
+                </li>
+				{% endif %}
+				{% if user|user_belongs_to_group:'Compras' %}
+				<li class="dropdown">
+                    <a href="#">Compras
+                    </a>
+                    <div class="dropdown-options">
+                        <ul>
+                            <li><a href="#">Empresas</a></li>
+                            <li><a href="#">Veículos</a></li>
+                            <li><a href="#">Transportadoras</a></li>
+							<li><a href="#">Forncecedores</a></li>
+							<li><a href="#">Nfe</a></li>
+                        </ul>
+                    </div>
+                </li>
+				{% endif %}
+				{% if user|user_belongs_to_group:'Analytics' %}
+				<li class="dropdown">
+                    <a href="#"> Nowa Analytics
+                    </a>
+                    <div class="dropdown-options">
+                        <ul>
+                            <li><a href="#">Empresas</a></li>
+                            <li><a href="#">Veículos</a></li>
+                            <li><a href="#">Transportadoras</a></li>
+							<li><a href="#">Fornececedores</a></li>
+							<li><a href="#">Nfe</a></li>
+                        </ul>
+                    </div>
+                </li>
+				{% endif %}
+            </ul>
+			<ul class="right-menu">
+				<li class="dropdownR">
+                    <a href="#" id="userddp">
+                        <i class="mdi mdi-account-circle avatar"></i> {{ user.username }}
+                    </a>
+                    <div class="dropdownR-options">
+                        <ul>
+							{% if user|user_belongs_to_group:'Administrador' %}
+							<li><a href="{% url 'register' %}">Novo Usuário</a></li>
+							{% endif %}
+                            <li><a href="#">Trocar Senha</a></li>
+                            <li><a href="#">Sobre</a></li>
+                            <li><a href="{% url 'logout' %}">Sair</a></li>
+                        </ul>
+                    </div>
+                </li>
+			</ul>
+		</nav>
+	</header>
+	<div class="geral">
+		<div class="container">
+			<div class="container_esq">
+			<h1>Bem-vindo</h1>
+			<p>Bem-vindo ao <strong>NOWA</strong>! Nosso sistema foi
+				desenvolvido para ajudar você e sua equipe e tornar
+				todas as suas atividades de forma mais eficiente.
+				Com <strong>NOWA</strong>, você pode facilmente
+				manter todos os
+				membros da equipe informados sobre o que está acontecendo.			</p>
+				<br>
+			<p>Explore o nosso software e sinta-se à vontade para entrar
+				em contato com a nossa equipe se precisar de ajuda.
+				Estamos ansiosos para ajudar você e sua equipe a alcançar seus objetivos!
+			</p>
+
+				<div class="feedback">
+					<h3>Sugestões</h3>
+					<br>
+					<form method="post">
+
+						{% csrf_token %}
+
+						<label>Nome:
+						<input type="text" name="username" id="id_username"></label><br>
+						<br>
+						<textarea name="suggestion" id="id_suggestion" cols="30" rows="10" placeholder="Envie sua Sugestão"></textarea>
+						<br>
+						<input type="submit" id="sug-button" value="Enviar">
+					</form>
+				</div>
+		</div>
+			<div class="container_dir">
+					<h1>Ultimas Atualizações</h1><br>
+				<div class="feed">
+
+
+					{% for log in hotfix_form %}
+					  <div class="update-details">
+						<h3>{{ log.title }}: v{{ log.version }}</h3>
+						<p>{{ log.details }}</p>
+					  </div>
+					  <br>
+					{% empty %}
+					  <div class="update-details">
+						<h3>Sem Atualização</h3>
+						<p>Quando houver novas atualizações e correções será detalhado neste campo.</p>
+					  </div>
+					  <br>
+					{% endfor %}
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="sun">
+        <div class="switch">
+          <label class="switch" for="modeSwitch">
+            <input type="checkbox" id="modeSwitch" onclick="toggleMode()">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+	  <footer>{{ vs.version }}</footer>
+</body>
+</html>

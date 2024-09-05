@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud - Logout</title>
+    <link rel="shortcut icon" href="{% static 'css/assets/cloudicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style_login.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+</head>
+<body>
+    <!-- Início do container -->
+    <div class="container">
+            <div class="containerE">
+                    <h1>Esperamos seu Retorno!</h1>
+                    <p>A inovação é a chave para desbloquear
+                        novas oportunidades tecnológicas e
+                        alcançar o sucesso.</p>
+            </div>
+            <div class="containerD">
+                <img src="{% static 'css/assets/cloudicon.png' %}" alt="Logo">
+                <br>
+                <h1><b>Desconectado.</b></h1>
+                <br>
+                <meta http-equiv='refresh' content="3;{% url 'home'%}" />
+                <p>Você será redirecionado, aguarde. </p>
+            </div>
+
+            <script>
+                const count = document.querySelector(".count");
+                setInterval(function () {
+                count.innerHTML = count.innerHTML.replace("");
+                count.innerHTML += ;
+                }, 1000);
+            </script>
+
+        <!-- Fim do formulário de login -->
+    </div>
+    <!-- Fim do container -->
+<!-- Rodapé -->
+<footer>
+    <p>&copy; Copyright 2023 - Cloud <br>All rights reserved. Powered by the Cloud</p>
+</footer>
+</body>
